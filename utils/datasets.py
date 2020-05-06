@@ -517,15 +517,14 @@ def load_image(self, index):
 
 
 def augment_hsv(img, hgain=0.5, sgain=0.5, vgain=0.5):
+    '''Original Image Altered for Single Channel'''
+    img = cv2.merge((img,img,img))
     x = np.random.uniform(-1, 1, 3) * [hgain, sgain, vgain] + 1  # random gains
     img_hsv = (cv2.cvtColor(img, cv2.COLOR_BGR2HSV) * x).clip(None, 255).astype(np.uint8)
     np.clip(img_hsv[:, :, 0], None, 179, out=img_hsv[:, :, 0])  # inplace hue clip (0 - 179 deg)
     cv2.cvtColor(img_hsv, cv2.COLOR_HSV2BGR, dst=img)  # no return needed
-    return img
-    # Histogram equalization
-    # if random.random() < 0.2:
-    #     for i in range(3):
-    #         img[:, :, i] = cv2.equalizeHist(img[:, :, i])
+    b,g,r = cv2.split(img)
+    return b
 
 
 def load_mosaic(self, index):
