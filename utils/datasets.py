@@ -450,7 +450,9 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                                             shear=hyp['shear'])
 
             # Augment colorspace
-            img = augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
+            # Approximate Percentage Point
+            if random.random() < 0.25:
+                img = augment_hsv(img, hgain=hyp['hsv_h'], sgain=hyp['hsv_s'], vgain=hyp['hsv_v'])
 
             # Apply cutouts
             # if random.random() < 0.9:

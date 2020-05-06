@@ -271,7 +271,7 @@ def train():
 
             # Plot images with bounding boxes
             if ni in [0,1,2]:
-                fname = 'Train_Images/train_batch_%g.jpg' % i
+                fname = 'Train_Images/'+ str(epoch) + '_train_batch_%g.jpg' % i
                 plot_images(imgs=imgs, targets=targets, paths=paths, fname=fname)
                # if tb_writer:
                 #    tb_writer.add_image(fname, cv2.imread(fname)[:, :, ::-1], dataformats='HWC')
