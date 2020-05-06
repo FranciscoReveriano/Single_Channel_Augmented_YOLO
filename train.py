@@ -61,11 +61,12 @@ def train():
     accumulate = opt.accumulate  # effective bs = batch_size * accumulate = 16 * 4 = 64
     weights = opt.weights  # initial training weights
 
-    # Initialize
-    init_seeds()
+    # Initialize Seed
+    seed_num = np.random.randint(1,100)
+    init_seeds(seed_num)
     if opt.multi_scale:
         img_sz_min = round(img_size / 32 / 1.75)
-        img_sz_max = round(img_size / 32 * 1.25)
+        img_sz_max = round(img_size / 32 * 2.00)
         img_size = img_sz_max * 32  # initiate with maximum multi_scale size
         print('Using multi-scale %g - %g' % (img_sz_min * 32, img_size))
 
@@ -178,7 +179,7 @@ def train():
 
     # Dataset
     dataset = LoadImagesAndLabels(train_path, img_size, batch_size,
-                                  augment=False,
+                                  augment=True,
                                   hyp=hyp,  # augmentation hyperparameters
                                   rect=False,  # rectangular training
                                   cache_labels=True,
@@ -269,9 +270,9 @@ def train():
                     imgs = F.interpolate(imgs, size=ns, mode='bilinear', align_corners=False)
 
             # Plot images with bounding boxes
-            #if ni == 0:
-             #   fname = 'train_batch%g.jpg' % i
-              #  plot_images(imgs=imgs, targets=targets, paths=paths, fname=fname)
+            if ni in [0,1,2]:
+                fname = 'Train_Images/train_batch_%g.jpg' % i
+                plot_images(imgs=imgs, targets=targets, paths=paths, fname=fname)
                # if tb_writer:
                 #    tb_writer.add_image(fname, cv2.imread(fname)[:, :, ::-1], dataformats='HWC')
 
